@@ -1,0 +1,3 @@
+shared_routes:
+    resource: '../../src/Shared/Infrastructure/Symfony/Controller/'
+    type: attribute

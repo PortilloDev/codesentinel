@@ -1,0 +1,29 @@
+framework:
+    messenger:
+        # Transport Redis para jobs async (procesado por el worker)
+        transports:
+            async:
+                dsn: '%env(MESSENGER_TRANSPORT_DSN)%'
+                options:
+                    # Nombre del stream en Redis
+                    stream: codesentinel_messages
+                    # Nombre del grupo de consumidores
+                    group: workers
+                    # Si falla, reintenta hasta 3 veces con delay creciente
+                retry_strategy:
+                    max_retries: 3
+                    delay: 1000       # ms — primer reintento
+                    multiplier: 2     # duplica el delay en cada reintento
+                    max_delay: 60000  # máximo 60s entre reintentos
+
+            # Transport para mensajes fallidos (tras agotar reintentos)
+            failed:
+                dsn: '%env(MESSENGER_TRANSPORT_DSN)%'
+                options:
+                    stream: codesentinel_failed
+
+        # Routing: qué mensajes van a qué transport
+        routing:
+            # Todos los mensajes al transport async por defecto
+            # (sobreescribiremos por clase cuando sea necesario)
+#            'App\Message\AnalyzePullRequestMessage': async
