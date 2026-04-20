@@ -1,0 +1,15 @@
+<doctrine-mapping xmlns="http://doctrine-project.org/schemas/orm/doctrine-mapping"
+                  xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+                  xsi:schemaLocation="http://doctrine-project.org/schemas/orm/doctrine-mapping
+                    http://doctrine-project.org/schemas/orm/doctrine-mapping.xsd">
+
+    <entity name="App\Order\Domain\Model\Order" table="orders">
+        <id name="id" type="order_id" column="id">
+            <generator strategy="NONE"/>
+        </id>
+        <field name="customerEmail" column="customer_email" type="string" length="255" />
+        <field name="amountCents" column="amount_cents" type="integer" />
+        <field name="currency" column="currency" type="string" length="8" />
+    </entity>
+
+</doctrine-mapping>

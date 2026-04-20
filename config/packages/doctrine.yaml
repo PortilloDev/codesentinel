@@ -4,17 +4,20 @@ doctrine:
         # pgvector necesita que registremos el tipo vector
         types:
             vector: Pgvector\Doctrine\VectorType
+            order_id: App\Order\Infrastructure\Persistence\Doctrine\Type\OrderIdType
 
     orm:
         naming_strategy: doctrine.orm.naming_strategy.underscore_number_aware
+        identity_generation_preferences:
+            Doctrine\DBAL\Platforms\PostgreSQLPlatform: identity
         auto_mapping: true
         mappings:
-            App:
-                type: attribute
+            Order:
+                type: xml
                 is_bundle: false
-                dir: '%kernel.project_dir%/src/Entity'
-                prefix: 'App\Entity'
-                alias: App
+                dir: '%kernel.project_dir%/src/Order/Infrastructure/Persistence/Mapping'
+                prefix: 'App\Order\Domain\Model'
+                alias: Order
 
 when@test:
     doctrine:
@@ -32,3 +35,10 @@ when@prod:
             result_cache_driver:
                 type: pool
                 pool: doctrine.result_cache_pool
+framework:
+        cache:
+            pools:
+                doctrine.result_cache_pool:
+                    adapter: cache.app
+                doctrine.system_cache_pool:
+                    adapter: cache.system

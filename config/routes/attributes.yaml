@@ -1,3 +1,8 @@
 shared_routes:
     resource: '../../src/Shared/Infrastructure/Symfony/Controller/'
     type: attribute
+
+
+order_routes:
+    resource: '../../src/Order/Infrastructure/Controller/'
+    type: attribute
